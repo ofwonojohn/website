@@ -1,0 +1,50 @@
+/* Reset some default styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4; /* Light gray background */
+}
+
+/* Header styles */
+header {
+    background-color: #4CAF50; /* Green background */
+    color: white;              /* White text color */
+    padding: 20px;            /* Spacing around the header */
+    text-align: center;        /* Center align text */
+}
+
+/* Navigation styles */
+nav {
+    margin-top: 10px;         /* Spacing above the navigation */
+}
+
+nav ul {
+    list-style-type: none;     /* Remove bullet points from list */
+    padding: 0;                /* Remove padding */
+}
+
+nav ul li {
+    display: inline;           /* Display links in a line */
+    margin: 0 15px;           /* Horizontal spacing between links */
+}
+
+nav ul li a {
+    color: white;              /* Link color */
+    text-decoration: none;     /* Remove underline from links */
+    font-weight: bold;         /* Make links bold */
+    transition: color 0.3s;    /* Smooth color transition on hover */
+}
+
+nav ul li a:hover {
+    color: #FFD700;            /* Change color on hover (gold) */
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+    nav ul li {
+        display: block;        /* Stack links vertically on small screens */
+        margin: 10px 0;       /* Vertical spacing between links */
+    }
+}
+
+
