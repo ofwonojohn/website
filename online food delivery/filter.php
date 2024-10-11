@@ -80,6 +80,14 @@
     <main>
         <h2>Filter Restaurants</h2>
         
+        <!-- Search Form -->
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="GET">
+            <label for="restaurant_name">Restaurant Name:</label>
+            <input type="text" id="restaurant_name" name="restaurant_name" placeholder="Enter restaurant name..."><br>
+
+            <input type="submit" value="Filter">
+        </form>
+
         <?php
         // Include the database connection
         include 'db.php'; 
@@ -109,13 +117,6 @@
             }
         }
         ?>
-
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="GET">
-            <label for="restaurant_name">Restaurant Name:</label>
-            <input type="text" id="restaurant_name" name="restaurant_name" placeholder="Enter restaurant name..."><br>
-
-            <input type="submit" value="Filter">
-        </form>
     </main>
 </body>
 </html>
