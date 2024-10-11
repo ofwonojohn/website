@@ -91,12 +91,12 @@ include 'header.php'; // Include the header
                 <p>Delicious cuisines and fast delivery!</p>
                 <a href="view_restaurants.php">Order Now</a>
             </div>
-            <div class="restaurant">
+            <!-- <div class="restaurant">
                 <img src="images/restaurant2.jpg" alt="Restaurant 2">
                 <h4>Cafe Java</h4>
                 <p>Enjoy a variety of dishes with amazing flavors.</p>
                 <a href="view_restaurants.php">Order Now</a>
-            </div>
+            </div> -->
             <div class="restaurant">
                 <img src="images/restaurant3.jpg" alt="Restaurant 3">
                 <h4>Kampala Grill</h4>
