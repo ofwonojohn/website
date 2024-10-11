@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/styles.css"> <!-- Adjust the path if necessary -->
+    <link rel="stylesheet" href="css/styles.css"> 
     <title>Filter Restaurants</title>
     <style>
         body {
@@ -61,8 +61,8 @@
         }
         .restaurant-list {
             margin-top: 20px;
-            list-style-type: none; /* Remove bullet points */
-            padding: 0; /* Remove default padding */
+            list-style-type: none; 
+            padding: 0; 
         }
         .restaurant-list li {
             padding: 10px;
