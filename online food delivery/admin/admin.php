@@ -29,8 +29,7 @@ include '../header.php'; // Include the header
                 <li><a href="manage_users.php">Manage Users</a></li>
                 <li><a href="manage_restaurants.php">Manage Restaurants</a></li>
                 <li><a href="manage_orders.php">Manage Orders</a></li>
-                <!-- <li><a href="../filter.php">Filter Restaurants</a></li> 
-                <li><a href="../view_restaurants.php">View Restaurants</a></li>  -->
+                <li><a href="sales_report.php">View Sales Reports</a></li> 
             </ul>
         </section>
     </main>
