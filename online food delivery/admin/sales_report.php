@@ -99,9 +99,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .report-summary p {
             font-size: 1.2em; /* Increase font size for better readability */
         }
+        .header-buttons {
+            display: flex;
+            justify-content: center; /* Center the buttons in the header */
+            margin-top: 10px;
+        }
+        .header-buttons a {
+            background-color: #2196F3;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 0 10px; /* Space between buttons */
+            transition: background-color 0.3s;
+        }
+        .header-buttons a:hover {
+            background-color: #1976D2;
+        }
     </style>
 </head>
 <body>
+    <header>
+        <h1>SALES ANALYSIS</h1>
+        <div class="header-buttons">
+            <a href="../index.php"><i class="fas fa-home"></i> Home</a>
+            <a href="../filter.php"><i class="fas fa-filter"></i> Filter</a>
+            <a href="../view_restaurants.php"><i class="fas fa-eye"></i> View</a>
+            <a href="../logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </header>
     <main>
         <h2>Sales Reports</h2>
 
