@@ -73,6 +73,20 @@ include 'header.php'; // Include the header
         .cta a:hover {
             background-color: #45a049;
         }
+        .admin-button {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .admin-button a {
+            background-color: #FF5722;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .admin-button a:hover {
+            background-color: #E64A19;
+        }
     </style>
 </head>
 <body>
@@ -91,12 +105,6 @@ include 'header.php'; // Include the header
                 <p>Delicious cuisines and fast delivery!</p>
                 <a href="view_restaurants.php">Order Now</a>
             </div>
-            <!-- <div class="restaurant">
-                <img src="images/restaurant2.jpg" alt="Restaurant 2">
-                <h4>Cafe Java</h4>
-                <p>Enjoy a variety of dishes with amazing flavors.</p>
-                <a href="view_restaurants.php">Order Now</a>
-            </div> -->
             <div class="restaurant">
                 <img src="images/restaurant3.jpg" alt="Restaurant 3">
                 <h4>Kampala Grill</h4>
@@ -109,6 +117,13 @@ include 'header.php'; // Include the header
             <h3>Ready to order?</h3>
             <a href="filter.php">Explore Restaurants</a>
         </div>
+
+        <!-- Admin Button (Only visible to admins) -->
+        <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+            <div class="admin-button">
+                <a href="admin/admin.php">Go to Admin Panel</a>
+            </div>
+        <?php endif; ?>
     </main>
 
     <?php include 'footer.php'; // Include the footer ?>
