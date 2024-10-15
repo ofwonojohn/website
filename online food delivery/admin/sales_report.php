@@ -8,7 +8,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 }
 
 include '../db.php'; // Include the database connection
-include '../header.php'; // Include the header
 
 // Initialize variables
 $totalSales = 0;
@@ -22,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         // Prepare SQL query to calculate total sales and orders in the date range for all restaurants
         $stmt = $pdo->prepare("
-            SELECT SUM(total_amount) AS total_sales, COUNT(order_id) AS total_orders 
+            SELECT SUM(total_price) AS total_sales, COUNT(order_id) AS total_orders 
             FROM Orders 
             WHERE created_at BETWEEN ? AND ?
         ");
@@ -44,7 +43,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="../css/styles.css"> <!-- Link to your CSS file -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome -->
     <title>Sales Reports</title>
     <style>
         body {
@@ -63,9 +63,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         h2 {
             color: #4CAF50;
+            text-align: center;
         }
         form {
             margin-bottom: 20px;
+            text-align: center; /* Center the form elements */
         }
         label {
             font-weight: bold;
@@ -74,12 +76,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #ccc;
-            margin-right: 10px;
+            margin: 0 10px; /* Adjust margins */
         }
         input[type="submit"] {
             background-color: #4CAF50;
             color: white;
-            padding: 10px;
+            padding: 10px 20px; /* Add more padding */
             border: none;
             border-radius: 5px;
             cursor: pointer;
@@ -89,6 +91,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         .report-summary {
             margin-top: 20px;
+            text-align: center; /* Center the summary */
+        }
+        .report-summary h3 {
+            color: #333;
+        }
+        .report-summary p {
+            font-size: 1.2em; /* Increase font size for better readability */
         }
     </style>
 </head>
