@@ -100,7 +100,7 @@ include '../db.php'; // Include the database connection
             <a href="../index.php"><i class="fas fa-home"></i> Home</a>
             <a href="../filter.php"><i class="fas fa-filter"></i> Filter</a>
             <a href="../view_restaurants.php"><i class="fas fa-eye"></i> View</a>
-            <a href="../logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            <a href="../login.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
     </header>
 
