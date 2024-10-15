@@ -65,6 +65,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             color: #4CAF50;
             text-align: center;
         }
+        header {
+            text-align: center; /* Center the header content */
+            padding: 20px;
+        }
+        header h1 {
+            text-transform: uppercase; /* Make the header text uppercase */
+            color: #4CAF50;
+            margin: 0; /* Remove default margin */
+        }
         form {
             margin-bottom: 20px;
             text-align: center; /* Center the form elements */
