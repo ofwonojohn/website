@@ -8,7 +8,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
 }
 
 include '../db.php'; // Include the database connection
-include '../header.php'; // Include the header
 ?>
 
 <!DOCTYPE html>
@@ -25,6 +24,15 @@ include '../header.php'; // Include the header
             background-color: #f4f4f4;
             margin: 0;
             padding: 0;
+        }
+        header {
+            text-align: center; /* Center the header content */
+            padding: 20px;
+        }
+        header h1 {
+            text-transform: uppercase; /* Make the header text uppercase */
+            color: #4CAF50;
+            margin: 0; /* Remove default margin */
         }
         main {
             width: 80%;
@@ -65,25 +73,37 @@ include '../header.php'; // Include the header
         ul li a i {
             margin-right: 10px;
         }
-        .cta-section {
-            text-align: center;
-            margin-top: 30px;
+        .header-buttons {
+            display: flex;
+            justify-content: center; /* Center the buttons in the header */
+            margin-top: 10px;
         }
-        .cta-section a {
+        .header-buttons a {
             background-color: #2196F3;
             color: white;
             padding: 10px 20px;
             text-decoration: none;
             border-radius: 5px;
             font-weight: bold;
+            margin: 0 10px; /* Space between buttons */
             transition: background-color 0.3s;
         }
-        .cta-section a:hover {
+        .header-buttons a:hover {
             background-color: #1976D2;
         }
     </style>
 </head>
 <body>
+    <header>
+        <h1>Admin Dashboard</h1>
+        <div class="header-buttons">
+            <a href="../index.php"><i class="fas fa-home"></i> Home</a>
+            <a href="../filter.php"><i class="fas fa-filter"></i> Filter</a>
+            <a href="../view_restaurants.php"><i class="fas fa-eye"></i> View</a>
+            <a href="../logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </header>
+
     <main>
         <h2>Welcome, Admin!</h2>
         <section>
@@ -111,10 +131,6 @@ include '../header.php'; // Include the header
                 </li>
             </ul>
         </section>
-
-        <div class="cta-section">
-            <a href="../index.php"><i class="fas fa-home"></i> Back to Home</a>
-        </div>
     </main>
 
     <?php include '../footer.php'; // Include the footer ?>
