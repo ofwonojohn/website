@@ -116,7 +116,7 @@ $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <tr>
                         <td><?php echo htmlspecialchars($order['order_id']); ?></td>
                         <td><?php echo htmlspecialchars($order['user_id']); ?></td>
-                        <td><?php echo htmlspecialchars($order['restaurant_id']); ?></td>
+                        <td><?php echo htmlspecialchars($order['restaurant_id'] ?? ''); ?></td>
                         <td><?php echo htmlspecialchars($order['total_price']); ?></td>
                         <td><?php echo htmlspecialchars($order['order_status']); ?></td>
                         <td class="actions">
