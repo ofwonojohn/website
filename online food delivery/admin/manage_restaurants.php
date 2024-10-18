@@ -8,9 +8,30 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
     exit;
 }
 
-// Fetch all restaurants
-$stmt = $pdo->query("SELECT * FROM Restaurants");
-$restaurants = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// Initialize variables
+$restaurants = [];
+$message = '';
+
+// Fetch all restaurants with optional location filtering
+if (isset($_GET['location'])) {
+    $location = htmlspecialchars($_GET['location']);
+    
+    // Use the location directly for filtering
+    $stmt = $pdo->prepare("SELECT * FROM Restaurants WHERE location LIKE ?");
+    $stmt->execute(["%$location%"]); // Use LIKE for partial matching
+    $restaurants = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    // Check if any restaurants were found
+    if (empty($restaurants)) {
+        $message = "No results found for \"{$location}\"."; // Set message for no results
+    }
+} else {
+    $stmt = $pdo->query("SELECT * FROM Restaurants");
+    $restaurants = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+// Define suggested locations
+$suggested_locations = ["Kampala", "Wakiso", "Masaka"];
 ?>
 
 <!DOCTYPE html>
@@ -80,6 +101,10 @@ $restaurants = $stmt->fetchAll(PDO::FETCH_ASSOC);
         .actions a:hover {
             text-decoration: underline;
         }
+        .no-results {
+            color: #ff0000; /* Red color for no results message */
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -87,6 +112,20 @@ $restaurants = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <h1>Manage Restaurants</h1>
     </header>
     <main>
+        <form method="GET" action="" style="margin-bottom: 20px;">
+            <input type="text" name="location" list="locations" placeholder="Type your location or select from options" required>
+            <datalist id="locations">
+                <?php foreach ($suggested_locations as $suggested_location): ?>
+                    <option value="<?php echo htmlspecialchars($suggested_location); ?>">
+                <?php endforeach; ?>
+            </datalist>
+            <input type="submit" value="Filter">
+        </form>
+
+        <?php if ($message): ?>
+            <div class="no-results"><?php echo $message; ?></div> <!-- Display no results message -->
+        <?php endif; ?>
+
         <a href="add_restaurant.php" class="add-restaurant-btn">Add Restaurant</a> <!-- Add Restaurant Button -->
 
         <table>
@@ -95,6 +134,7 @@ $restaurants = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <th>Restaurant ID</th>
                     <th>Name</th>
                     <th>Address</th>
+                    <th>Location</th> 
                     <th>Description</th>
                     <th>Actions</th>
                 </tr>
@@ -105,6 +145,7 @@ $restaurants = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <td><?php echo htmlspecialchars($restaurant['restaurant_id']); ?></td>
                         <td><?php echo htmlspecialchars($restaurant['name']); ?></td>
                         <td><?php echo htmlspecialchars($restaurant['address']); ?></td>
+                        <td><?php echo htmlspecialchars($restaurant['location']); ?></td>
                         <td><?php echo htmlspecialchars($restaurant['description']); ?></td>
                         <td class="actions">
                             <a href="edit_restaurant.php?restaurant_id=<?php echo $restaurant['restaurant_id']; ?>">Edit</a>
