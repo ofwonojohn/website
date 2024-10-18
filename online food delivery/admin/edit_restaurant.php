@@ -123,6 +123,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="address">Address:</label>
             <input type="text" id="address" name="address" value="<?php echo htmlspecialchars($restaurant['address']); ?>" required>
 
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" value="<?php echo htmlspecialchars($restaurant['location']); ?>" required>
+
             <label for="description">Description:</label>
             <textarea id="description" name="description" required><?php echo htmlspecialchars($restaurant['description']); ?></textarea>
 
