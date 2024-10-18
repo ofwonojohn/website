@@ -104,6 +104,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="address">Address:</label>
             <input type="text" id="address" name="address" required>
 
+            <label for="location">Location:</label>
+            <input type="text" name="location" id="location" required>
+
+
             <label for="description">Description:</label>
             <textarea id="description" name="description" required></textarea>
 
