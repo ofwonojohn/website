@@ -1,9 +1,18 @@
+<?php
+include 'db.php'; // Include database connection
+
+// Fetch all restaurants from the database
+$stmt = $pdo->prepare("SELECT * FROM Restaurants");
+$stmt->execute();
+$restaurants = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/styles.css"> <!-- Link to your CSS file -->
+    <link rel="stylesheet" href="../css/styles.css"> <!-- Link to external CSS file -->
     <title>View Restaurants</title>
     <style>
         body {
@@ -39,11 +48,23 @@
             padding: 0; /* Remove default padding */
         }
         .restaurant-list li {
-            padding: 10px;
+            padding: 15px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            margin: 5px 0;
+            margin: 10px 0;
             background-color: #f9f9f9;
+            transition: background-color 0.3s;
+        }
+        .restaurant-list li:hover {
+            background-color: #e0f7e0;
+        }
+        .restaurant-link {
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .restaurant-link:hover {
+            text-decoration: underline;
         }
         .error-message {
             color: red;
@@ -57,29 +78,22 @@
     </header>
     <main>
         <h2>Available Restaurants</h2>
-        
-        <?php
-        // Include the database connection
-        include 'db.php'; 
 
-        try {
-            // Fetch all restaurants
-            $stmt = $pdo->query("SELECT * FROM Restaurants");
-            $restaurants = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            if (count($restaurants) > 0) {
-                echo "<ul class='restaurant-list'>";
-                foreach ($restaurants as $restaurant) {
-                    echo "<li>" . htmlspecialchars($restaurant['name']) . " - " . htmlspecialchars($restaurant['description']) . "</li>";
-                }
-                echo "</ul>";
-            } else {
-                echo "<p>No restaurants available at the moment.</p>";
-            }
-        } catch (PDOException $e) {
-            echo "<p class='error-message'>Failed to retrieve restaurants: " . htmlspecialchars($e->getMessage()) . "</p>";
-        }
-        ?>
+        <?php if (count($restaurants) > 0): ?>
+            <ul class="restaurant-list">
+                <?php foreach ($restaurants as $restaurant): ?>
+                    <li>
+                        <a class="restaurant-link" 
+                           href="restaurant_details.php?restaurant_id=<?php echo $restaurant['restaurant_id']; ?>">
+                            <?php echo htmlspecialchars($restaurant['name']); ?>
+                        </a> 
+                        - <?php echo htmlspecialchars($restaurant['description']); ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php else: ?>
+            <p>No restaurants found.</p>
+        <?php endif; ?>
     </main>
 </body>
 </html>
