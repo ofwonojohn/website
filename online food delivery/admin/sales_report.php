@@ -151,7 +151,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div class="report-summary">
             <h3>Report Summary</h3>
-            <p>Total Sales: $<?php echo number_format($totalSales, 2); ?></p>
+            <p>Total Sales: Shs.<?php echo number_format($totalSales, 2); ?></p>
             <p>Total Orders: <?php echo $totalOrders; ?></p>
         </div>
     </main>
