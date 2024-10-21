@@ -16,14 +16,15 @@ $totalOrders = 0;
 // Handle form submission for date range
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $startDate = $_POST['start_date'];
-    $endDate = $_POST['end_date'];
+    // Move the end date to the next day for inclusive range
+    $endDate = date('Y-m-d', strtotime($_POST['end_date'] . ' +1 day')); 
 
     try {
         // Prepare SQL query to calculate total sales and orders in the date range for all restaurants
         $stmt = $pdo->prepare("
             SELECT SUM(total_price) AS total_sales, COUNT(order_id) AS total_orders 
             FROM Orders 
-            WHERE created_at BETWEEN ? AND ?
+            WHERE created_at >= ? AND created_at < ?
         ");
         $stmt->execute([$startDate, $endDate]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
