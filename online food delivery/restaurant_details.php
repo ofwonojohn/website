@@ -1,11 +1,9 @@
 <?php
 include 'db.php'; // Include the database connection
 
-// Get the restaurant ID and simulate a logged-in user (replace with your logic)
 $restaurant_id = $_GET['restaurant_id'] ?? 0;
-$user_id = 1; // Replace with actual user ID from session or authentication
+$user_id = 1; // Replace with actual user ID
 
-// Fetch the restaurant details
 $stmt = $pdo->prepare("SELECT * FROM Restaurants WHERE restaurant_id = ?");
 $stmt->execute([$restaurant_id]);
 $restaurant = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -14,67 +12,49 @@ if (!$restaurant) {
     die("Restaurant not found.");
 }
 
-// Fetch the restaurant's menu items
 $menu_stmt = $pdo->prepare("SELECT * FROM Menus WHERE restaurant_id = ?");
 $menu_stmt->execute([$restaurant_id]);
 $menu_items = $menu_stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Handle order submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $order = $_POST['order'] ?? [];
-
     if (!empty($order)) {
-        $pdo->beginTransaction(); // Start a transaction
-
+        $pdo->beginTransaction();
         try {
             $total_price = 0;
-
-            // Calculate the total price and prepare order item data
             foreach ($order as $menu_id => $quantity) {
                 if ($quantity > 0) {
                     $item_stmt = $pdo->prepare("SELECT price FROM Menus WHERE menu_id = ?");
                     $item_stmt->execute([$menu_id]);
                     $item = $item_stmt->fetch(PDO::FETCH_ASSOC);
-
-                    if ($item) {
-                        $subtotal = $item['price'] * $quantity;
-                        $total_price += $subtotal;
-                    }
+                    $total_price += $item['price'] * $quantity;
                 }
             }
 
-            // Insert the order into the Orders table
             $order_stmt = $pdo->prepare(
                 "INSERT INTO Orders (user_id, restaurant_id, total_price, total_amount, order_status) 
                  VALUES (?, ?, ?, ?, 'pending')"
             );
             $order_stmt->execute([$user_id, $restaurant_id, $total_price, $total_price]);
-            $order_id = $pdo->lastInsertId(); // Get the new order ID
+            $order_id = $pdo->lastInsertId();
 
-            // Insert each item into the Order_Items table
             foreach ($order as $menu_id => $quantity) {
                 if ($quantity > 0) {
                     $item_stmt = $pdo->prepare("SELECT price FROM Menus WHERE menu_id = ?");
                     $item_stmt->execute([$menu_id]);
                     $item = $item_stmt->fetch(PDO::FETCH_ASSOC);
-
-                    if ($item) {
-                        $subtotal = $item['price'] * $quantity;
-
-                        $order_item_stmt = $pdo->prepare(
-                            "INSERT INTO Order_Items (order_id, menu_id, quantity, price) 
-                             VALUES (?, ?, ?, ?)"
-                        );
-                        $order_item_stmt->execute([$order_id, $menu_id, $quantity, $item['price']]);
-                    }
+                    $order_item_stmt = $pdo->prepare(
+                        "INSERT INTO Order_Items (order_id, menu_id, quantity, price) 
+                         VALUES (?, ?, ?, ?)"
+                    );
+                    $order_item_stmt->execute([$order_id, $menu_id, $quantity, $item['price']]);
                 }
             }
 
-            $pdo->commit(); // Commit the transaction
+            $pdo->commit();
             echo "<p>Order placed successfully!</p>";
-
         } catch (Exception $e) {
-            $pdo->rollBack(); // Roll back the transaction if there is an error
+            $pdo->rollBack();
             echo "<p>Failed to place the order: " . $e->getMessage() . "</p>";
         }
     } else {
@@ -91,8 +71,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title><?php echo htmlspecialchars($restaurant['name']); ?> - Menu</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Arial', sans-serif;
+            background-color: #f2f2f2;
             margin: 0;
             padding: 0;
         }
@@ -101,36 +81,63 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             margin: 20px auto;
             background-color: white;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         }
         h1 {
             color: #4CAF50;
+            text-align: center;
+            margin-bottom: 20px;
         }
         ul {
             list-style-type: none;
             padding: 0;
         }
         li {
-            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
             margin: 10px 0;
             border: 1px solid #ddd;
-            background-color: #f9f9f9;
-            border-radius: 5px;
+            background-color: #fafafa;
+            border-radius: 8px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        li:hover {
+            transform: scale(1.02);
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
+        }
+        .item-details {
+            flex: 1;
+        }
+        .item-name {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+        .item-price {
+            color: #4CAF50;
+            font-weight: bold;
         }
         .quantity-input {
-            width: 50px;
+            width: 60px;
             margin-left: 10px;
         }
         .order-button {
             display: block;
-            margin: 20px 0;
-            padding: 10px 20px;
+            width: 100%;
+            padding: 15px;
             background-color: #4CAF50;
             color: white;
+            font-size: 1.1em;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-top: 20px;
+        }
+        .order-button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
@@ -141,10 +148,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <ul>
                 <?php foreach ($menu_items as $item): ?>
                     <li>
-                        <strong><?php echo htmlspecialchars($item['item_name']); ?></strong> - 
-                        Shs <?php echo number_format($item['price'], 2); ?><br>
-                        <em><?php echo htmlspecialchars($item['description']); ?></em>
-
+                        <div class="item-details">
+                            <div class="item-name"><?php echo htmlspecialchars($item['item_name']); ?></div>
+                            <div class="item-price">Shs <?php echo number_format($item['price'], 2); ?></div>
+                            <div><?php echo htmlspecialchars($item['description']); ?></div>
+                        </div>
                         <?php if (!$item['is_available']): ?>
                             <span style="color: red;">(Not available)</span>
                         <?php else: ?>
