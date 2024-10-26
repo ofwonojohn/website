@@ -129,6 +129,16 @@ include '../db.php'; // Include the database connection
                         <i class="fas fa-chart-bar"></i> View Sales Reports
                     </a>
                 </li>
+                <li>
+                    <a href="restuarant_performance.php">
+                        <i class="fa-chart-bar"></i> View Statistical Performance
+                    </a>
+                </li>
+                <li>
+                    <a href="report.php">
+                        <i class="fas fa-chart-bar"></i>Report
+                    </a>
+                </li>
             </ul>
         </section>
     </main>
